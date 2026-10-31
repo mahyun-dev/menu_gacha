@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f4ed">
+    <meta name="description" content="오늘 메뉴는 캡슐에 맡겨봐요. 메뉴가챠가 당신의 취향에 맞는 한 끼를 골라드려요.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>메뉴가챠 — 오늘 메뉴는 운에 맡겨봐</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./menus.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="메뉴가챠 홈">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="#f7eed6"/><path d="M5 16a11 11 0 0 0 22 0H5Z" fill="#f3c767"/><path d="M5 16h22" stroke="#d7c59f" stroke-width="1.4"/><circle cx="11" cy="10" r="2" fill="#fff" opacity=".8"/></svg>
+          </span>
+          <span>메뉴가챠</span>
+        </a>
+        <div class="topbar-actions">
+          <span class="daypart-pill"><span class="daypart-dot"></span><span id="daypart-label">오늘의 추천</span></span>
+          <button class="sound-toggle icon-button" id="sound-toggle" type="button" aria-label="효과음 켜기" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M17 9a5 5 0 0 1 0 6M19.5 6.5a9 9 0 0 1 0 11"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <section class="intro" aria-labelledby="page-title">
+          <div class="intro-copy">
+            <span class="eyebrow">오늘도 메뉴 고민 중?</span>
+            <h1 id="page-title">한 끼는 <span>운에 맡겨봐.</span></h1>
+          </div>
+          <button class="taste-button" id="open-filters" type="button" aria-haspopup="dialog" aria-controls="filter-dialog">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M7 12h10m-7 5h4"/><circle cx="8" cy="7" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="12" cy="17" r="1.5"/></svg>
+            <span>취향 설정</span>
+            <span class="preference-count" id="preference-count">전체</span>
+          </button>
+        </section>
+
+        <section class="machine-wrap" aria-label="메뉴 캡슐 뽑기">
+          <div class="machine-halo" aria-hidden="true"></div>
+          <div class="machine" id="machine">
+            <div class="machine-cap"><span>MENU GACHA</span><span class="cap-light"></span></div>
+            <div class="machine-globe">
+              <div class="globe-glint" aria-hidden="true"></div>
+              <div class="capsule-pile" id="capsule-pile" aria-hidden="true"></div>
+              <div class="globe-reflection" aria-hidden="true"></div>
+            </div>
+            <div class="machine-neck" aria-hidden="true"></div>
+            <div class="machine-base">
+              <div class="capsule-slot" id="capsule-slot" aria-live="polite">
+                <span class="slot-placeholder"><span></span></span>
+              </div>
+              <span class="machine-rivet rivet-left" aria-hidden="true"></span>
+              <span class="machine-rivet rivet-right" aria-hidden="true"></span>
+            </div>
+            <div class="machine-foot" aria-hidden="true"><span></span></div>
+          </div>
+          <div class="capsule-landing" id="capsule-landing" aria-label="뽑힌 캡슐이 도착하는 곳"></div>
+          <button class="lever-button" id="spin-button" type="button" aria-label="버튼을 눌러 메뉴 캡슐 뽑기">
+            <span class="lever-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14m-5-5 5 5 5-5"/></svg></span>
+            <span class="lever-label"><strong>눌러서 뽑기</strong><small>오늘의 메뉴 캡슐이 나와요</small></span>
+            <span class="lever-arrow" aria-hidden="true">→</span>
+          </button>
+          <p class="machine-hint" id="machine-hint" aria-live="polite">딱 한 번 눌러봐. 오늘 메뉴가 나올 거야.</p>
+        </section>
+
+        <section class="result-card" id="result-card" aria-live="polite" aria-label="추천 메뉴" hidden>
+          <div class="result-topline"><span><span class="result-star">✳</span> 오늘의 메뉴</span><span id="result-number"></span></div>
+          <div class="result-content">
+            <div class="food-art" id="food-art" aria-hidden="true"></div>
+            <div class="result-copy">
+              <span class="result-category" id="result-category"></span>
+              <h2 id="result-name"></h2>
+              <p class="result-reason" id="result-reason"></p>
+              <p class="result-tags" id="result-tags"></p>
+            </div>
+          </div>
+          <div class="result-actions">
+            <a class="action-button action-primary" id="map-link" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>
+              주변 식당
+            </a>
+            <a class="action-button action-secondary" id="delivery-link" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18l-1.6 12H4.6L3 8Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/></svg>
+              배달 검색
+            </a>
+            <button class="action-button action-plain" id="share-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.6 6.6-4.2m-6.6 7 6.6 4"/></svg>
+              공유
+            </button>
+          </div>
+          <button class="reroll-button" id="reroll-button" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9a7 7 0 0 1 11.6-2L20 12M4 12l2.8 5a7 7 0 0 0 11.6-2"/></svg>
+            다른 메뉴 한 번 더 뽑기
+          </button>
+        </section>
+
+        <section class="below-fold">
+          <button class="history-shortcut" id="open-history" type="button" aria-haspopup="dialog" aria-controls="filter-dialog">
+            <span class="history-shortcut-icon" aria-hidden="true">↺</span>
+            <span>최근 뽑은 메뉴</span>
+            <span class="history-shortcut-count" id="history-count">0</span>
+            <span class="shortcut-arrow" aria-hidden="true">›</span>
+          </button>
+          <p class="privacy-note">© 2026 Luminoa Dev. All rights reserved.</p>
+        </section>
+      </main>
+
+      <dialog class="filter-dialog" id="filter-dialog" aria-labelledby="filter-title">
+        <div class="dialog-grabber" aria-hidden="true"></div>
+        <div class="dialog-header">
+          <div><span class="dialog-kicker">YOUR TASTE</span><h2 id="filter-title">오늘 입맛은 어때?</h2></div>
+          <button class="dialog-close" id="close-filters" type="button" aria-label="취향 설정 닫기">×</button>
+        </div>
+        <div class="dialog-body">
+          <section class="filter-group">
+            <div class="filter-heading"><h3>종류</h3><span>여러 개 선택 가능</span></div>
+            <div class="chip-list category-grid" id="category-filters" role="group" aria-label="음식 종류"></div>
+          </section>
+          <section class="filter-group">
+            <div class="filter-heading"><h3>당기는 느낌</h3><span>선택한 맛에 맞춰 뽑아요</span></div>
+            <div class="chip-list mood-grid" id="mood-filters" role="group" aria-label="메뉴 분위기"></div>
+          </section>
+          <section class="filter-group exclude-group">
+            <div class="filter-heading"><h3>빼고 싶은 재료</h3><span>포함 메뉴를 제외해요</span></div>
+            <div class="chip-list exclude-grid" id="exclude-filters" role="group" aria-label="제외할 재료"></div>
+            <p class="filter-note">알레르기가 있다면 주문 전 식당에 재료를 확인해 주세요.</p>
+          </section>
+          <p class="filter-count" id="filter-count" aria-live="polite"></p>
+          <section class="history-section" id="history-section" hidden aria-labelledby="history-title">
+            <div class="history-heading"><h3 id="history-title">최근에 뽑은 메뉴</h3><button id="clear-history" type="button">기록 지우기</button></div>
+            <div class="history-list" id="history-list"></div>
+          </section>
+        </div>
+        <div class="dialog-footer">
+          <button class="reset-button" id="reset-filters" type="button">초기화</button>
+          <button class="done-button" id="close-filters-done" type="button">다 됐어요 <span id="done-count"></span></button>
+        </div>
+      </dialog>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+  </body>
+</html>

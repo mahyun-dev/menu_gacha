@@ -1,0 +1,19 @@
+{
+  "name": "메뉴가챠 — 오늘 메뉴는 운에 맡겨봐",
+  "short_name": "메뉴가챠",
+  "description": "취향에 맞는 메뉴를 버튼 한 번으로 뽑아보세요.",
+  "lang": "ko-KR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f4ed",
+  "theme_color": "#f5f4ed",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
